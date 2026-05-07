@@ -21,78 +21,121 @@ WSL's `force-err-cuddling` only enforces cuddling for `err` variables. There is 
 ### Assignment before `if`
 
 ```go
-// Before                          // After
-x := 1                             x := 1
-                                   if x > 0 {
-if x > 0 {                             println(x)
-    println(x)                     }
+// Before
+x := 1
+
+if x > 0 {
+    println(x)
+}
+
+// After
+x := 1
+if x > 0 {
+    println(x)
 }
 ```
 
 ### Assignment before `for` / `range`
 
 ```go
-// Before                          // After
-items := []int{1, 2, 3}            items := []int{1, 2, 3}
-                                   for _, item := range items {
-for _, item := range items {           println(item)
-    println(item)                  }
+// Before
+items := []int{1, 2, 3}
+
+for _, item := range items {
+    println(item)
+}
+
+// After
+items := []int{1, 2, 3}
+for _, item := range items {
+    println(item)
 }
 ```
 
 ### Assignment before `switch`
 
 ```go
-// Before                          // After
-mode := "json"                     mode := "json"
-                                   switch mode {
-switch mode {                      case "json":
-case "json":                           println("json")
-    println("json")                }
+// Before
+mode := "json"
+
+switch mode {
+case "json":
+    println("json")
+}
+
+// After
+mode := "json"
+switch mode {
+case "json":
+    println("json")
 }
 ```
 
 ### Assignment before `go func()`
 
 ```go
-// Before                          // After
-ch := make(chan int)                ch := make(chan int)
-                                   go func() {
-go func() {                            ch <- 1
-    ch <- 1                        }()
+// Before
+ch := make(chan int)
+
+go func() {
+    ch <- 1
+}()
+
+// After
+ch := make(chan int)
+go func() {
+    ch <- 1
 }()
 ```
 
 ### Assignment before `defer func()`
 
 ```go
-// Before                          // After
-cleanup := func() {}               cleanup := func() {}
-                                   defer func() {
-defer func() {                         cleanup()
-    cleanup()                      }()
+// Before
+cleanup := func() {}
+
+defer func() {
+    cleanup()
+}()
+
+// After
+cleanup := func() {}
+defer func() {
+    cleanup()
 }()
 ```
 
 ### `var` declaration before block
 
 ```go
-// Before                          // After
-var x int                          var x int
-                                   if x > 0 {
-if x > 0 {                            println(x)
-    println(x)                     }
+// Before
+var x int
+
+if x > 0 {
+    println(x)
+}
+
+// After
+var x int
+if x > 0 {
+    println(x)
 }
 ```
 
 ### Multi-assignment before block
 
 ```go
-// Before                          // After
-x, y := 1, 2                      x, y := 1, 2
-                                   if y > 0 {
-if y > 0 {                            println(y)
-    println(y)                     }
+// Before
+x, y := 1, 2
+
+if y > 0 {
+    println(y)
+}
+
+// After
+x, y := 1, 2
+if y > 0 {
+    println(y)
 }
 ```
 

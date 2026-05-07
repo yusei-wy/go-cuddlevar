@@ -1,0 +1,4 @@
+version: v2.12.1
+plugins:
+  - module: github.com/yusei-wy/go-cuddlevar
+    version: v1.0.0

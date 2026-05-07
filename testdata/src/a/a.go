@@ -63,6 +63,7 @@ func multiAssign() {
 func multipleBlankLines() {
 	x := 1
 
+
 	if x > 0 { // want `unnecessary blank line before block using x`
 		println(x)
 	}

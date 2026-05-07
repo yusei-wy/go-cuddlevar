@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
+	"slices"
 
 	"golang.org/x/tools/go/analysis"
 )
@@ -65,11 +66,7 @@ func checkPair(pass *analysis.Pass, file *ast.File, prev, next ast.Stmt) {
 			{
 				Message: fmt.Sprintf("Remove blank line before block using %s", used),
 				TextEdits: []analysis.TextEdit{
-					{
-						Pos:     editStart,
-						End:     editEnd,
-						NewText: nil,
-					},
+					{Pos: editStart, End: editEnd},
 				},
 			},
 		},
@@ -135,17 +132,13 @@ func hasCommentBetween(file *ast.File, start, end token.Pos) bool {
 }
 
 func firstUsedName(names []string, node ast.Node) string {
-	nameSet := make(map[string]bool, len(names))
-	for _, n := range names {
-		nameSet[n] = true
-	}
 	var found string
 	ast.Inspect(node, func(n ast.Node) bool {
 		if found != "" {
 			return false
 		}
 		ident, ok := n.(*ast.Ident)
-		if ok && nameSet[ident.Name] {
+		if ok && slices.Contains(names, ident.Name) {
 			found = ident.Name
 			return false
 		}
